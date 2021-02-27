@@ -53,6 +53,8 @@ dependencies:
   percent_indicator: ^2.1.9+1
   table_calendar: ^2.3.3
   syncfusion_flutter_charts: ^18.4.43+1
+  dropdown_search: ^0.4.8
+  fluttertoast: ^7.1.8
 
 
 dev_dependencies:
@@ -71,8 +73,15 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/
+  #  - assets/chicken.jpg
+  #  - assets/duck.jpg
+  #  - assets/eggs.jpg
+  #  - assets/geese.jpg
+  #  - assets/guineafowls.png
+  #  - assets/quail.jpg
+  #  - assets/turkey.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
