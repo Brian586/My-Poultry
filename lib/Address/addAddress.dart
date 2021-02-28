@@ -18,24 +18,12 @@ class AddAddress extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text("Add Address"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white,),
           onPressed: () {
             Navigator.pop(context);
           },
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [Colors.blue[900], Colors.lightBlue],
-                  begin: FractionalOffset(0.0, 0.0),
-                  end: FractionalOffset(1.0, 0.0),
-                  stops: [0.0, 1.0],
-                  tileMode: TileMode.clamp
-              )
-          ),
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -70,7 +58,7 @@ class AddAddress extends StatelessWidget {
               }
           },
           label: Text("Done"),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.pink,
         icon: Icon(Icons.check),
       ),
       body: SingleChildScrollView(

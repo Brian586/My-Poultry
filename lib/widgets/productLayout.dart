@@ -22,7 +22,7 @@ class ProductLayout extends StatelessWidget {
           child: Container(
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: BorderRadius.circular(15.0),
                   boxShadow: [
                     BoxShadow(color: Colors.black38, offset: Offset(2.0, -2.0), blurRadius: 6.0)
@@ -51,9 +51,9 @@ class ProductLayout extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         SizedBox(height: 10.0,),
-                        Text(product.title.trimRight(), style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14.0),),
+                        Text(product.title.trimRight(), style: TextStyle( fontWeight: FontWeight.bold, fontSize: 14.0),),
                         SizedBox(height: 5.0,),
-                        Text(product.shortInfo.trimRight(), style: TextStyle(color: Colors.black, fontSize: 14.0),),
+                        Text(product.shortInfo.trimRight(), style: TextStyle( fontSize: 14.0),),
                         SizedBox(height: 5.0,),
                         Row(
                           children: [

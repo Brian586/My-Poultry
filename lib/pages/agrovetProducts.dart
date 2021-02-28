@@ -93,44 +93,36 @@ class _AgrovetProductsState extends State<AgrovetProducts> {
         title: Text(
           "Agrovet Products",
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.cloud_upload_outlined, color: Colors.white,),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> AdminSignInPage()));
-            },
-          )
-        ],
-        bottom: PreferredSize(
-          preferredSize: Size(width, 60.0),
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                onTap: () {
-                  // Route route = MaterialPageRoute(builder: (context)=> SearchProduct());
-                  // Navigator.push(context, route);
-                },
-                child: Container(
-                  height: 40.0,
-                  width: width * 0.9,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30.0),
-                      color: Colors.white70
-                  ),
-                  child: Row(
-                    children: [
-                      SizedBox(width: 10.0,),
-                      Icon(Icons.search, color: Colors.black,),
-                      SizedBox(width: 10.0,),
-                      Text("Search here...")
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
+        // bottom: PreferredSize(
+        //   preferredSize: Size(width, 60.0),
+        //   child: Container(
+        //     child: Padding(
+        //       padding: const EdgeInsets.all(8.0),
+        //       child: InkWell(
+        //         onTap: () {
+        //           // Route route = MaterialPageRoute(builder: (context)=> SearchProduct());
+        //           // Navigator.push(context, route);
+        //         },
+        //         child: Container(
+        //           height: 40.0,
+        //           width: width * 0.9,
+        //           decoration: BoxDecoration(
+        //               borderRadius: BorderRadius.circular(30.0),
+        //               color: Colors.white70
+        //           ),
+        //           child: Row(
+        //             children: [
+        //               SizedBox(width: 10.0,),
+        //               Icon(Icons.search, color: Colors.black,),
+        //               SizedBox(width: 10.0,),
+        //               Text("Search here...")
+        //             ],
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ),
       body: loading ? circularProgress() : RefreshIndicator(child:  displayList(), onRefresh: getPosts),
     );

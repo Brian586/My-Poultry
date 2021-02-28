@@ -69,7 +69,6 @@ class _VaccinationPageState extends State<VaccinationPage> {
                   "Ducks",
                   "Geese",
                   "Guinea Fowls",
-                  "Musk Ducks",
                   "Turkeys",
                   "Pigeons"
                 ],

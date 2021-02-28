@@ -55,6 +55,8 @@ dependencies:
   syncfusion_flutter_charts: ^18.4.43+1
   dropdown_search: ^0.4.8
   fluttertoast: ^7.1.8
+  dynamic_theme: ^1.0.1
+  flutter_linkify: ^4.1.0
 
 
 dev_dependencies:

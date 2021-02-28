@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -35,6 +36,7 @@ class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMi
   final picker = ImagePicker();
   TextEditingController _descriptionTextEditingController = TextEditingController();
   TextEditingController _priceTextEditingController = TextEditingController();
+  TextEditingController _categoryTextEditingController = TextEditingController();
   TextEditingController _titleTextEditingController = TextEditingController();
   TextEditingController _shortInfoTextEditingController = TextEditingController();
   String productId = DateTime.now().millisecondsSinceEpoch.toString();
@@ -157,7 +159,7 @@ class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMi
         children: [
           ListTile(
             leading: Icon(Icons.notifications_active_outlined, color: Colors.pink,),
-            title: Text("Messages", style: GoogleFonts.fredokaOne(color: Colors.black, fontSize: 18.0),),
+            title: Text("Messages", style: GoogleFonts.fredokaOne( fontSize: 18.0),),
             onTap: () {
               Route route = MaterialPageRoute(builder: (context)=> AdminChatHome(userID: widget.userID));
               Navigator.push(context, route);
@@ -165,9 +167,9 @@ class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMi
           ),
           ListTile(
             leading: Icon(Icons.shop_two_outlined, color: Colors.pink,),
-            title: Text("Ordered Products", style: GoogleFonts.fredokaOne(color: Colors.black, fontSize: 18.0),),
+            title: Text("Ordered Products", style: GoogleFonts.fredokaOne(fontSize: 18.0),),
             subtitle: Text("See people who ordered your products", style: TextStyle(color: Colors.grey, fontSize: 15.0),),
-            onTap: (){
+            onTap: () {
               Route route = MaterialPageRoute(builder: (context)=> AdminShiftOrders(
                 userID: widget.userID,
                 phone: widget.phone,
@@ -178,7 +180,7 @@ class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMi
           ),
           ListTile(
             leading: Icon(Icons.cloud_upload_outlined, color: Colors.pink,),
-            title: Text("Upload Products", style: GoogleFonts.fredokaOne(color: Colors.black, fontSize: 18.0),),
+            title: Text("Upload Products", style: GoogleFonts.fredokaOne(fontSize: 18.0),),
             onTap: ()=> takeImage(context),
           ),
         ],
@@ -344,6 +346,30 @@ class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMi
           SizedBox(height: 20.0,),
 
           Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: DropdownSearch<String>(
+              mode: Mode.MENU,
+              showSelectedItem: true,
+              items: [
+                "Medicine",
+                "Feeds",
+                "Feeding Equipment",
+                "Housing Equipment",
+                "Storage Equipment"
+              ],
+              label: "Category",
+              hint: "Category",
+              //popupItemDisabled: (String s) => s.startsWith('I'),
+              onChanged: (v) {
+                setState(() {
+                  _categoryTextEditingController.text = v;
+                });
+              },
+              //selectedItem: "Brazil"
+            ),
+          ),
+
+          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -385,7 +411,7 @@ class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMi
 
     if(_shortInfoTextEditingController.text.isNotEmpty
         && _descriptionTextEditingController.text.isNotEmpty
-        && _priceTextEditingController.text.isNotEmpty
+        && _priceTextEditingController.text.isNotEmpty && _categoryTextEditingController.text.isNotEmpty
         && _titleTextEditingController.text.isNotEmpty
         && city.isNotEmpty && country.isNotEmpty)
       {
@@ -425,6 +451,7 @@ class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMi
       "price": int.parse(_priceTextEditingController.text.trim()),
       "publishedDate": DateTime.now().millisecondsSinceEpoch,
       "status": "available",
+      "category": _categoryTextEditingController.text,
       "productId": productId,
       "thumbnailUrl": downloadUrl,
       "title": _titleTextEditingController.text.trim(),
@@ -441,6 +468,7 @@ class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMi
       productId= DateTime.now().millisecondsSinceEpoch.toString();
       _descriptionTextEditingController.clear();
       _titleTextEditingController.clear();
+      _categoryTextEditingController.clear();
       _shortInfoTextEditingController.clear();
       _priceTextEditingController.clear();
     });
@@ -453,6 +481,7 @@ class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMi
 
     _descriptionTextEditingController.clear();
     _priceTextEditingController.clear();
+    _categoryTextEditingController.clear();
     _titleTextEditingController.clear();
     _shortInfoTextEditingController.clear();
   }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_poultry/Admin/adminLogin.dart';
 import 'package:my_poultry/Authentication/login.dart';
 import 'package:my_poultry/Config/config.dart';
 import 'package:my_poultry/pages/agrovetProducts.dart';
 import 'package:my_poultry/pages/counter.dart';
+import 'package:my_poultry/pages/groups.dart';
+import 'package:my_poultry/pages/settings.dart';
 import 'package:my_poultry/pages/vaccinationPage.dart';
 
 
@@ -50,7 +53,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 SizedBox(height: 10.0,),
                 Text(
                   username,
-                  style: GoogleFonts.fredokaOne(color: Colors.black, fontSize: 17.0, ),
+                  style: GoogleFonts.fredokaOne( fontSize: 17.0, ),
                 ),
                 Text(
                   email,
@@ -88,6 +91,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
             title: Text("Agrovet Products", style: TextStyle(fontWeight: FontWeight.bold),),
           ),
           ListTile(
+            onTap: () {
+              Route route = MaterialPageRoute(builder: (context)=> GroupsPage());
+              Navigator.push(context, route);
+            },
             leading: Icon(Icons.people, color: Colors.grey,),
             title: Text("Groups", style: TextStyle(fontWeight: FontWeight.bold),),
           ),
@@ -104,6 +111,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
             title: Text("Vaccination", style: TextStyle(fontWeight: FontWeight.bold),),
           ),
           ListTile(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> AdminSignInPage()));
+            },
+            leading: Icon(Icons.admin_panel_settings_outlined, color: Colors.grey,),
+            title: Text("Agrovet", style: TextStyle(fontWeight: FontWeight.bold),),
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> SettingsPage()));
+            },
             leading: Icon(Icons.settings, color: Colors.grey,),
             title: Text("Settings", style: TextStyle(fontWeight: FontWeight.bold),),
           ),
