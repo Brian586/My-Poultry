@@ -6,6 +6,8 @@ import 'package:my_poultry/Config/config.dart';
 import 'package:my_poultry/pages/agrovetProducts.dart';
 import 'package:my_poultry/pages/counter.dart';
 import 'package:my_poultry/pages/groups.dart';
+import 'package:my_poultry/pages/health.dart';
+import 'package:my_poultry/pages/produceData.dart';
 import 'package:my_poultry/pages/settings.dart';
 import 'package:my_poultry/pages/vaccinationPage.dart';
 
@@ -75,10 +77,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
             title: Text("Counter", style: TextStyle(fontWeight: FontWeight.bold),),
           ),
           ListTile(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> ProduceData()));
+            },
             leading: Icon(Icons.outdoor_grill_outlined, color: Colors.grey,),
             title: Text("Produce", style: TextStyle(fontWeight: FontWeight.bold),),
           ),
           ListTile(
+            onTap: () {
+              Route route = MaterialPageRoute(builder: (context)=> Health());
+              Navigator.push(context, route);
+            },
             leading: Icon(Icons.local_hospital_outlined, color: Colors.grey,),
             title: Text("Health", style: TextStyle(fontWeight: FontWeight.bold),),
           ),
@@ -102,14 +111,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
             leading: Icon(Icons.admin_panel_settings_outlined, color: Colors.grey,),
             title: Text("Experts", style: TextStyle(fontWeight: FontWeight.bold),),
           ),
-          ListTile(
-            onTap: () {
-              Route route = MaterialPageRoute(builder: (context)=> VaccinationPage());
-              Navigator.push(context, route);
-            },
-            leading: Icon(Icons.medical_services_outlined, color: Colors.grey,),
-            title: Text("Vaccination", style: TextStyle(fontWeight: FontWeight.bold),),
-          ),
+          // ListTile(
+          //   onTap: () {
+          //     Route route = MaterialPageRoute(builder: (context)=> VaccinationPage());
+          //     Navigator.push(context, route);
+          //   },
+          //   leading: Icon(Icons.medical_services_outlined, color: Colors.grey,),
+          //   title: Text("Vaccination", style: TextStyle(fontWeight: FontWeight.bold),),
+          // ),
           ListTile(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context)=> AdminSignInPage()));

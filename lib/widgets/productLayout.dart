@@ -75,6 +75,7 @@ class ProductLayout extends StatelessWidget {
                             )
                           ],
                         ),
+                        SizedBox(height: 10.0,),
                       ],
                     ),
                   )

@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:my_poultry/models/chartData.dart';
 import 'package:my_poultry/models/dataModel.dart';
+import 'package:my_poultry/models/healthModel.dart';
+import 'package:my_poultry/pages/produceData.dart';
 import 'package:my_poultry/widgets/customPercentIndicator.dart';
 import 'package:my_poultry/widgets/drawer.dart';
 import 'package:my_poultry/widgets/loadingWidget.dart';
@@ -19,18 +23,35 @@ class _HomeState extends State<Home> {
   CalendarController _calendarController;
   bool loading = false;
   List<PoultryData> list = [];
+  List<ChartData> chartDataList = [];
+  Map<DateTime, List<String>> events = {};
+  List todoList = [];
+  DateTime date;
 
   @override
   void initState() {
     super.initState();
 
     getData();
-    _calendarController = CalendarController();
   }
 
   Future<void> getData() async {
     setState(() {
       loading = true;
+    });
+
+    _calendarController = CalendarController();
+
+    await Firestore.instance.collection("vaccines").getDocuments().then((querySnapshot) {
+      events = {};
+
+      querySnapshot.documents.forEach((element) {
+        Vaccination vaccination = Vaccination.fromDocument(element);
+        events[DateTime.fromMillisecondsSinceEpoch(vaccination.dateTime)] = [
+          vaccination.vaccineName,
+          vaccination.disease
+        ];
+      });
     });
 
     await Firestore.instance
@@ -45,6 +66,15 @@ class _HomeState extends State<Home> {
           });
     });
 
+    await Firestore.instance.collection("chartData").orderBy("timestamp", descending: false).getDocuments().then((querySnapshot) {
+      chartDataList = [];
+
+      querySnapshot.documents.forEach((element) {
+        ChartData chartData = ChartData.fromDocument(element);
+        chartDataList.add(chartData);
+      });
+    });
+
     setState(() {
       loading = false;
     });
@@ -57,28 +87,28 @@ class _HomeState extends State<Home> {
     super.dispose();
   }
 
-  List<LineSeries<ChartData, num>> getLineSeries() {
+  List<LineSeries<ChartData, String>> getLineSeries() {
 
-    final List<ChartData> chartData = [
-      ChartData(2017, 21, 28),
-      ChartData(2018, 24, 44),
-      ChartData(2019, 21, 28),
-      ChartData(2020, 21, 28),
-    ];
+    // final List<ChartData> chartData = [
+    //   ChartData(2017, 21, 28),
+    //   ChartData(2018, 24, 44),
+    //   ChartData(2019, 21, 28),
+    //   ChartData(2020, 21, 28),
+    // ];
 
-    return <LineSeries<ChartData, num>> [
-      LineSeries<ChartData, num>(
+    return <LineSeries<ChartData, String>> [
+      LineSeries<ChartData, String>(
         animationDuration: 2500,
-        dataSource: chartData,
+        dataSource: chartDataList,
         xValueMapper: (ChartData sales, _) => sales.x,
         yValueMapper: (ChartData sales, _) => sales.y,
         width: 2,
         name: "Meat",
         markerSettings: MarkerSettings(isVisible: true)
       ),
-      LineSeries<ChartData, num>(
+      LineSeries<ChartData, String>(
           animationDuration: 2500,
-          dataSource: chartData,
+          dataSource: chartDataList,
           xValueMapper: (ChartData sales, _) => sales.x,
           yValueMapper: (ChartData sales, _) => sales.y2,
           width: 2,
@@ -86,6 +116,53 @@ class _HomeState extends State<Home> {
           markerSettings: MarkerSettings(isVisible: true)
       )
     ];
+  }
+
+  addProduceData() async {
+    await Navigator.push(context, MaterialPageRoute(builder: (context)=> ProduceData()));
+
+    getData();
+  }
+
+  void _onDaySelected(DateTime day, List events, List holidays) {
+    setState(() {
+      todoList = events;
+      date = day;
+    });
+  }
+
+  displayEvents()
+  {
+    return todoList.length == 0 ? Text("") : Container(
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(5.0),
+          boxShadow: [
+            BoxShadow(color: Colors.black38, offset: Offset(2.0, 2.0), blurRadius: 6.0)
+          ]
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Vaccination for " + DateFormat("MMM dd").format(date), style: TextStyle(fontWeight: FontWeight.bold),),
+            SizedBox(height: 10.0,),
+            ListView.builder(
+              itemCount: todoList.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (BuildContext context, int index) {
+                String event = todoList[index];
+
+                return Text(event);
+              },
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -147,7 +224,10 @@ class _HomeState extends State<Home> {
                 Heading(width: 150.0, title: "Vaccination Calendar",),
                 TableCalendar(
                   calendarController: _calendarController,
+                  events: events,
+                  onDaySelected: _onDaySelected,
                 ),
+                displayEvents(),
                 SizedBox(height: 40.0,),
                 Heading(width: 125.0, title: "Production Graph",),
                 SfCartesianChart(
@@ -157,11 +237,7 @@ class _HomeState extends State<Home> {
                       isVisible: true,
                     overflowMode: LegendItemOverflowMode.wrap
                   ),
-                  primaryXAxis: NumericAxis(
-                    edgeLabelPlacement: EdgeLabelPlacement.shift,
-                    interval: 1,
-                    majorGridLines: MajorGridLines(width: 0.0)
-                  ),
+                  primaryXAxis: CategoryAxis(),
                   primaryYAxis: NumericAxis(
                     labelFormat: "{value}",
                     axisLine: AxisLine(width: 0.0),
@@ -169,7 +245,29 @@ class _HomeState extends State<Home> {
                   ),
                   series: getLineSeries(),
                   tooltipBehavior: TooltipBehavior(enable: true),
-                )
+                ),
+                SizedBox(height: 20.0,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      height: 40,
+                      //width: 180,
+                      child: RaisedButton.icon(
+                        onPressed: addProduceData,
+                        color: Colors.pink,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0)
+                        ),
+                        icon: Icon(Icons.add, color: Colors.white,),
+                        label: Text("Add Produce Data", style: GoogleFonts.fredokaOne(color: Colors.white),),
+                        elevation: 5.0,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 50.0,),
               ],
             ),
           ),

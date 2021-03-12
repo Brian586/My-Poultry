@@ -7,6 +7,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:my_poultry/Admin/myProducts.dart';
 import 'package:my_poultry/DialogBox/errorDialog.dart';
 import 'package:my_poultry/pages/agrovetProducts.dart';
 import 'package:my_poultry/widgets/loadingWidget.dart';
@@ -182,6 +183,13 @@ class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMi
             leading: Icon(Icons.cloud_upload_outlined, color: Colors.pink,),
             title: Text("Upload Products", style: GoogleFonts.fredokaOne(fontSize: 18.0),),
             onTap: ()=> takeImage(context),
+          ),
+          ListTile(
+            leading: Icon(Icons.my_library_books_outlined, color: Colors.pink,),
+            title: Text("View My Products", style: GoogleFonts.fredokaOne(fontSize: 18.0),),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> MyProducts(userId: widget.userID,)));
+            },
           ),
         ],
       ),
