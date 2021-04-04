@@ -459,6 +459,7 @@ class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMi
       "price": int.parse(_priceTextEditingController.text.trim()),
       "publishedDate": DateTime.now().millisecondsSinceEpoch,
       "status": "available",
+      "searchKey": _titleTextEditingController.text.trim().toLowerCase(),
       "category": _categoryTextEditingController.text,
       "productId": productId,
       "thumbnailUrl": downloadUrl,

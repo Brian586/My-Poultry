@@ -57,6 +57,7 @@ dependencies:
   fluttertoast: ^7.1.8
   dynamic_theme: ^1.0.1
   flutter_linkify: ^4.1.0
+  file_picker:
 
 
 dev_dependencies:

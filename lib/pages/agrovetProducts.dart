@@ -5,6 +5,8 @@ import 'package:my_poultry/models/productModel.dart';
 import 'package:my_poultry/widgets/loadingWidget.dart';
 import 'package:my_poultry/widgets/productLayout.dart';
 
+import 'search.dart';
+
 
 class AgrovetProducts extends StatefulWidget {
   @override
@@ -93,6 +95,14 @@ class _AgrovetProductsState extends State<AgrovetProducts> {
         title: Text(
           "Agrovet Products",
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search, color: Colors.white,),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchPage()));
+            },
+          )
+        ],
         // bottom: PreferredSize(
         //   preferredSize: Size(width, 60.0),
         //   child: Container(

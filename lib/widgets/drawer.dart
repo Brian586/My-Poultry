@@ -5,6 +5,7 @@ import 'package:my_poultry/Authentication/login.dart';
 import 'package:my_poultry/Config/config.dart';
 import 'package:my_poultry/pages/agrovetProducts.dart';
 import 'package:my_poultry/pages/counter.dart';
+import 'file:///C:/src/FlutterApps/my_poultry/lib/expert/experts.dart';
 import 'package:my_poultry/pages/groups.dart';
 import 'package:my_poultry/pages/health.dart';
 import 'package:my_poultry/pages/produceData.dart';
@@ -108,6 +109,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
             title: Text("Groups", style: TextStyle(fontWeight: FontWeight.bold),),
           ),
           ListTile(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ExpertsPage()));
+            },
             leading: Icon(Icons.admin_panel_settings_outlined, color: Colors.grey,),
             title: Text("Experts", style: TextStyle(fontWeight: FontWeight.bold),),
           ),
